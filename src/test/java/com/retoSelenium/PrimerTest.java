@@ -48,6 +48,12 @@ public class PrimerTest {
         WebElement buttonTest = driver.findElement(By.xpath("//button[normalize-space()='Button with Dynamic ID']"));
         buttonTest.click();
         Delay(1);
+
+        String buttonId = buttonTest.getAttribute("id");
+        System.out.println("ID del botón : " + buttonId);
+
+        buttonTest.click();
+        Delay(1);
     }
 
     @Test
@@ -55,11 +61,11 @@ public class PrimerTest {
         WebElement testClick = driver.findElement(By.xpath("//a[normalize-space()='Text Input']"));
         testClick.click();
         Delay(1);
-        WebElement buttonTest = driver.findElement(By.xpath("//input[@id='newButtonName']"));
-        buttonTest.sendKeys("AlfredoMC");
+        WebElement inputTest = driver.findElement(By.xpath("//input[@id='newButtonName']"));
+        inputTest.sendKeys("AlfredoMC");
         Delay(1);
-        WebElement buttonTest2 = driver.findElement(By.xpath("//button[@id='updatingButton']"));
-        buttonTest2.click();
+        WebElement buttonTest = driver.findElement(By.xpath("//button[@id='updatingButton']"));
+        buttonTest.click();
         Delay(1);
     }
 
@@ -80,10 +86,8 @@ public class PrimerTest {
     public void test5LoadDelay() {
         WebElement testClick = driver.findElement(By.xpath("//a[normalize-space()='Load Delay']"));
         testClick.click();
-        Delay(1);
         WebElement home = driver.findElement(By.xpath("//a[normalize-space()='Home']"));
         home.click();
-        Delay(1);
         WebElement testClick2 = driver.findElement(By.xpath("//a[normalize-space()='Load Delay']"));
         testClick2.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -108,11 +112,8 @@ public class PrimerTest {
     public void test7AJAXData() {
         WebElement testClick = driver.findElement(By.xpath("//a[normalize-space()='AJAX Data']"));
         testClick.click();
-        Delay(1);
         WebElement buttonTest = driver.findElement(By.xpath("//button[@id='ajaxButton']"));
         buttonTest.click();
-        Delay(1);
-
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         wait.until(ExpectedConditions.textToBePresentInElementLocated(
                 By.id("content"), "Data loaded with AJAX get request."
@@ -126,7 +127,6 @@ public class PrimerTest {
         testClick.click();
         WebElement buttonTest = driver.findElement(By.xpath("//button[@id='startButton']"));
         buttonTest.click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement progressBar = driver.findElement(By.id("progressBar"));
         int progress = 0;
         while (progress < 75) {
@@ -134,7 +134,7 @@ public class PrimerTest {
             progress = Integer.parseInt(progressValue);
             System.out.println("Progreso actual: " + progress + "%");
         }
-        WebElement buttonStop = wait.until(ExpectedConditions.elementToBeClickable(By.id("stopButton")));
+        WebElement buttonStop = driver.findElement(By.id("stopButton"));
         buttonStop.click();
 
         Delay(2);
@@ -177,6 +177,8 @@ public class PrimerTest {
         alert3.sendKeys("Dog");
         Delay(1);
         alert3.accept();
+
+
 
         Delay(1);
     }
@@ -231,7 +233,7 @@ public class PrimerTest {
         String clipboardText = (String) clipboard.getData(DataFlavor.stringFlavor);
 
         Assertions.assertEquals(getValue, clipboardText, "El GUID copiado no coincide con el generado.");
-
+        System.out.println("el id es: "+getValue);
         Delay(2);
     }
 
@@ -274,7 +276,7 @@ public class PrimerTest {
 
     @AfterEach
     public void tearDown() {
-        driver.close();
+        driver.quit();
     }
 
     public void Delay(int seconds) {
